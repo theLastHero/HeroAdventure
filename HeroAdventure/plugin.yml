@@ -1,0 +1,7 @@
+name: HeroAdventure
+version: 0.1.dev
+description: HeroAdventure
+author: judgetread
+authors: [judgetread, DeathFinn] 
+website: http://thelasthero.net
+main: HeroAdventure.HeroAdventure.HeroAdventure

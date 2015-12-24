@@ -1,21 +1,27 @@
 package HeroAdventure.HeroAdventure;
 
-import org.bukkit.plugin.Plugin;
+import java.io.File;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import HeroAdventure.FileHandlers.PlayerFileHandler;
+import HeroAdventure.Listeners.MobListener;
+import HeroAdventure.Listeners.PlayerListener;
 
 
 public class HeroAdventure extends JavaPlugin {
 
 
-	public static HeroAdventure instance;
-	private HeroAdventure plugin;
+	public String playerDataFolderPath = this.getDataFolder() + File.separator + "player_data";  //where player data is stored
+
+
+	public PlayerFileHandler PlayerFileHandler;
 	
-	/**
-	 * getInstance
-	 */
-	public static Plugin getInstance() {
-		return instance;
-	}
+	// CONSTANTS
+	public Location FIRST_JOIN_LOCATION;
+	
 
 
 	/**
@@ -31,25 +37,34 @@ public class HeroAdventure extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-		instance = this;
 		
 		
+		// Registers
+		 
+		this.setPlayerFileHandler(new PlayerFileHandler(this));
+		//this.getServer().getPluginManager().RegisterEvents(event, this);
+		
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new MobListener(), this);
+		
+		//FIRST_JOIN_LOCATION = 
+	}
+
+
+
+	/**
+	 * @return the playerFileHandler
+	 */
+	public PlayerFileHandler getPlayerFileHandler() {
+		return PlayerFileHandler;
 	}
 
 
 	/**
-	 * @return the plugin
+	 * @param playerFileHandler the playerFileHandler to set
 	 */
-	public HeroAdventure getPlugin() {
-		return plugin;
-	}
-
-
-	/**
-	 * @param plugin the plugin to set
-	 */
-	public void setPlugin(HeroAdventure plugin) {
-		this.plugin = plugin;
+	public void setPlayerFileHandler(PlayerFileHandler playerFileHandler) {
+		PlayerFileHandler = playerFileHandler;
 	}
 
 }

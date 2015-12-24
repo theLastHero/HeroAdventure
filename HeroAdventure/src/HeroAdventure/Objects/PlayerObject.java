@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class PlayerObject {
 	
-	public static ArrayList<PlayerObject> PlayerObjects = new ArrayList<PlayerObject>(); //ArrayLis of PlayerObjects
+	public static ArrayList<PlayerObject> playerObjects = new ArrayList<PlayerObject>(); //ArrayLis of PlayerObjects
 	
 	private UUID playerUUID;					//This objects playerUUID
 	private List<Integer> playerCompletedQuestList;	//List of quests that have been completed
@@ -27,17 +27,23 @@ public class PlayerObject {
 	 */
 	public PlayerObject(UUID playerUUID, double playerLevel, double playerXp, double playerMoney,  List<Integer> playerCompletedQuestList, List<Integer> playerCurrentQuestList){
 	
-		this.setPlayerUUID(playerUUID);						//Set this objects playerUUID
-		this.setPlayerMoney(playerMoney);									//Set players money
+		this.setPlayerUUID(playerUUID);								//Set this objects playerUUID
+		this.setPlayerMoney(playerMoney);							//Set players money
 		this.setPlayerCompletedQuestList(playerCompletedQuestList);	//Set this objects list of completed quests
 		this.setPlayerCurrentQuestList(playerCurrentQuestList);		//Set this objects list of current quests
-		this.setPlayerLevel(playerLevel);
-		this.setPlayerXp(playerXp);
+		this.setPlayerLevel(playerLevel);							//Set players level
+		this.setPlayerXp(playerXp);									//Set players XP
 		
-		PlayerObjects.add(this);		//Add this object to the arraylist of PlayerObjects
+		playerObjects.add(this);		//Add this object to the arraylist of PlayerObjects
 	}
 
 
+	/**
+	 * @return removePlayerObject
+	 */
+	public void removePlayersObject(UUID playerUUID){
+		playerObjects.remove(this);
+	}
 
 	/**
 	 * @return the playerCompletedQuestList

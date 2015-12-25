@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import HeroAdventure.HeroAdventure.HeroAdventure;
 import HeroAdventure.Objects.PlayerObject;
+import HeroAdventure.Utils.Verbrose;
 
 
 public class PlayerManager {
@@ -34,7 +36,12 @@ public class PlayerManager {
 	// ------------------------------------------------------
 	public static void createPlayerObject(UUID playerUUID) {
 
+
+		Verbrose.broadcastDebug("* Creating player object");
+		
+		Bukkit.broadcastMessage(plugin.playerDataFolderPath.toString());
 		File playerDataFile = new File(plugin.playerDataFolderPath, playerUUID.toString());
+		
 
 		// read from file
 		FileConfiguration config = new YamlConfiguration();
@@ -44,13 +51,19 @@ public class PlayerManager {
 			List<Integer> PlayerCompletedQuests = config.getIntegerList("PlayerCompletedQuests");
 			List<Integer> PlayerCurrentQuests = config.getIntegerList("PlayerCurrentQuests");
 			double PlayerMoney = config.getDouble("PlayerMoney");
-			double PlayerLevel = config.getDouble("PlayerLevel");
-			double PlayerXp = config.getDouble("PlayerXp");
+			Verbrose.broadcastDebug("* Money: " + Double.toString(PlayerMoney));
+			int PlayerLevel = config.getInt("PlayerLevel");
+			Verbrose.broadcastDebug("* Level: " + Integer.toString(PlayerLevel));
+			int PlayerXp = config.getInt("PlayerXp");
+			Verbrose.broadcastDebug("*    Xp: " + Integer.toString(PlayerXp));
 			// config.save(playerDataFile);
 			new PlayerObject(playerUUID, PlayerLevel, PlayerXp, PlayerMoney, PlayerCompletedQuests, PlayerCurrentQuests);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		Verbrose.broadcastDebug("* Finished Creating player object");
 	}
 	
 	// ------------------------------------------------------

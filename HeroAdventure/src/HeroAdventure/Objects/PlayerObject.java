@@ -4,8 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+
+import HeroAdventure.HeroAdventure.HeroAdventure;
+
 
 public class PlayerObject {
+	
+	public static HeroAdventure plugin;
+
+	// -------------------------------------------------------------------------------------
+	// Constructor
+	// -------------------------------------------------------------------------------------
+	public PlayerObject(HeroAdventure HeroAdventure) {
+		plugin = HeroAdventure;
+	}
+	
 	
 	public static ArrayList<PlayerObject> playerObjects = new ArrayList<PlayerObject>(); //ArrayLis of PlayerObjects
 	
@@ -13,19 +33,15 @@ public class PlayerObject {
 	private List<Integer> playerCompletedQuestList;	//List of quests that have been completed
 	private List<Integer> playerCurrentQuestList;	//List of quest that are current
 	private double playerMoney;						//Holds players money value
-	private double playerLevel;						//Holds players current level
-	private double playerXp;							//Holds players xp
+	private int playerLevel;						//Holds players current level
+	private int playerXp;							//Holds players xp
 	
 	
-	/**
-	 *
-	 */
-	public PlayerObject(){}
-	
+
 	/**
 	 * constructor
 	 */
-	public PlayerObject(UUID playerUUID, double playerLevel, double playerXp, double playerMoney,  List<Integer> playerCompletedQuestList, List<Integer> playerCurrentQuestList){
+	public PlayerObject(UUID playerUUID, int playerLevel, int playerXp, double playerMoney,  List<Integer> playerCompletedQuestList, List<Integer> playerCurrentQuestList){
 	
 		this.setPlayerUUID(playerUUID);								//Set this objects playerUUID
 		this.setPlayerMoney(playerMoney);							//Set players money
@@ -34,7 +50,41 @@ public class PlayerObject {
 		this.setPlayerLevel(playerLevel);							//Set players level
 		this.setPlayerXp(playerXp);									//Set players XP
 		
+		
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getNewScoreboard();
+
+		Objective objective = board.registerNewObjective("test", "dummy");
+		
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.setDisplayName("[ theLastHero ]");
+		
 		playerObjects.add(this);		//Add this object to the arraylist of PlayerObjects
+
+
+	    Score line1 = objective.getScore(ChatColor.RED.toString()); 
+	    line1.setScore(10);
+	    
+	    Score line2 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "LEVEL:  "); 
+	    line2.setScore(9);
+	    
+	    Score line3 = objective.getScore(""+ChatColor.GREEN + getPlayerLevel()); 
+	    line3.setScore(8);
+
+	    Score line5 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "XP:  "); 
+	    line5.setScore(6);
+	    
+	    Score line6 = objective.getScore(""+ChatColor.GREEN + getPlayerXp() + "/10000"); 
+	    line6.setScore(5);
+	    Bukkit.getPlayer(playerUUID).setScoreboard(board);
+	    
+
+	    Score line8 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "MONEY:  "); 
+	    line8.setScore(3);
+	    
+	    Score line9 = objective.getScore(""+ChatColor.GREEN + getPlayerMoney()); 
+	    line9.setScore(2);
+	    Bukkit.getPlayer(playerUUID).setScoreboard(board);
 	}
 
 
@@ -97,7 +147,7 @@ public class PlayerObject {
 	/**
 	 * @param playerLevel the playerLevel to set
 	 */
-	public void setPlayerLevel(double playerLevel) {
+	public void setPlayerLevel(int playerLevel) {
 		this.playerLevel = playerLevel;
 	}
 
@@ -111,7 +161,7 @@ public class PlayerObject {
 	/**
 	 * @param playerXp the playerXp to set
 	 */
-	public void setPlayerXp(double playerXp) {
+	public void setPlayerXp(int playerXp) {
 		this.playerXp = playerXp;
 	}
 

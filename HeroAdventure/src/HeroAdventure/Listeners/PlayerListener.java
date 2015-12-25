@@ -7,40 +7,60 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import HeroAdventure.FileHandlers.PlayerFileHandler;
 import HeroAdventure.HeroAdventure.HeroAdventure;
+import HeroAdventure.Managers.PlayerManager;
+import HeroAdventure.Utils.Verbrose;
 
 
 public class PlayerListener implements Listener{
 	
-	HeroAdventure pl;
-	
-	public PlayerListener() {
-		// TODO Auto-generated constructor stub
+	public static HeroAdventure plugin;
+
+	// -------------------------------------------------------------------------------------
+	// Constructor
+	// -------------------------------------------------------------------------------------
+	public PlayerListener(HeroAdventure HeroAdventure) {
+		plugin = HeroAdventure;
 	}
 	
-	public PlayerListener(HeroAdventure pl){
-		this.pl = pl;
-	}
+	
 	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		
-		Player p = e.getPlayer();
+
+		Verbrose.broadcastDebug("* Player Joined Server");
+		Player player = e.getPlayer();
 		
 		if(!e.getPlayer().hasPlayedBefore()) {
-			  p.teleport(new Location(Bukkit.getWorld("world_arotha"), 6, 12, -22, (float) -94.7, (float) -0.9));
+			  //p.teleport(new Location(Bukkit.getWorld("world_arotha"), 6, 12, -22, (float) -94.7, (float) -0.9));
+			player.teleport(new Location(Bukkit.getWorld("world_arotha"), 6, 12, -22, (float) -94.7, (float) -0.9));
 		  }
 
-		if (!PlayerFileHandler.checkPlayerDataFile(p.getUniqueId())) {
-			PlayerFileHandler.createPlayerDataFile(p.getUniqueId());
+		if (!PlayerFileHandler.checkPlayerDataFile(player.getUniqueId())) {
+			PlayerFileHandler.createPlayerDataFile(player.getUniqueId());
 		}
 
-		//	playerManager.createPlayerObject(player.getUniqueId());
-		
+		PlayerManager.createPlayerObject(player.getUniqueId());
 
+	}
+	
+	// -------------------------------------------------------------------------------------
+	// onPlayerQuit
+	// -------------------------------------------------------------------------------------
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		
+		Player player = event.getPlayer();
+
+		if (PlayerManager.getPlayers(player.getUniqueId()) != null) {
+			PlayerManager.savePlayerObject(player.getUniqueId());
+
+			PlayerManager.removePlayerObject(player.getUniqueId());
+		}
 	}
 
 

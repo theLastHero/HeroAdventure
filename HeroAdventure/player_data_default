@@ -2,6 +2,6 @@ PlayerCompletedQuests:
   - 9999999
 PlayerCurrentQuests:
   - 9999999
-PlayerMoney: 0
+PlayerMoney: 0.00
 PlayerLevel: 0
 PlayerXp: 0 

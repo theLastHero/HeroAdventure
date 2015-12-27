@@ -35,7 +35,9 @@ public class PlayerObject {
 	private double playerMoney;						//Holds players money value
 	private int playerLevel;						//Holds players current level
 	private int playerXp;							//Holds players xp
-	
+	private ScoreboardManager manager;
+	private Scoreboard board;
+	private Objective objective;
 	
 
 	/**
@@ -51,40 +53,130 @@ public class PlayerObject {
 		this.setPlayerXp(playerXp);									//Set players XP
 		
 		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getNewScoreboard();
-
-		Objective objective = board.registerNewObjective("test", "dummy");
 		
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("[ theLastHero ]");
+		updateScoreboard();
 		
 		playerObjects.add(this);		//Add this object to the arraylist of PlayerObjects
 
 
-	    Score line1 = objective.getScore(ChatColor.RED.toString()); 
+	}
+
+
+	/**
+	 * @return updateScoreboard
+	 */
+	public void updateScoreboard(){
+
+		
+		this.manager = Bukkit.getScoreboardManager();
+		this.board = manager.getNewScoreboard();
+
+		this.objective = board.registerNewObjective("test", "dummy");
+		
+		this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		this.objective.setDisplayName("[ theLastHero ]");
+		
+	    Score line1 = this.objective.getScore(ChatColor.RED.toString()); 
 	    line1.setScore(10);
 	    
-	    Score line2 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "LEVEL:  "); 
+	    Score line2 = this.objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "LEVEL:              "); 
 	    line2.setScore(9);
 	    
-	    Score line3 = objective.getScore(""+ChatColor.GREEN + getPlayerLevel()); 
+	    Score line3 = this.objective.getScore(""+ChatColor.GREEN + getPlayerLevel()); 
 	    line3.setScore(8);
 
-	    Score line5 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "XP:  "); 
+	    Score line5 =this. objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "XP:  "); 
 	    line5.setScore(6);
 	    
-	    Score line6 = objective.getScore(""+ChatColor.GREEN + getPlayerXp() + "/10000"); 
+	    Score line6 = this.objective.getScore(""+ChatColor.GREEN + getPlayerXp() + "/10000"); 
 	    line6.setScore(5);
-	    Bukkit.getPlayer(playerUUID).setScoreboard(board);
 	    
-
-	    Score line8 = objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "MONEY:  "); 
+	    Score line8 = this.objective.getScore(ChatColor.YELLOW +""+ ChatColor.BOLD + "MONEY:  "); 
 	    line8.setScore(3);
 	    
-	    Score line9 = objective.getScore(""+ChatColor.GREEN + getPlayerMoney()); 
+	    Score line9 = this.objective.getScore(""+ChatColor.GREEN + getPlayerMoney()); 
 	    line9.setScore(2);
-	    Bukkit.getPlayer(playerUUID).setScoreboard(board);
+	    Bukkit.getPlayer(playerUUID).setScoreboard(this.board);
+	}
+	
+	
+	/**
+	 * @return the plugin
+	 */
+	public static HeroAdventure getPlugin() {
+		return plugin;
+	}
+
+
+	/**
+	 * @param plugin the plugin to set
+	 */
+	public static void setPlugin(HeroAdventure plugin) {
+		PlayerObject.plugin = plugin;
+	}
+
+
+	/**
+	 * @return the playerObjects
+	 */
+	public static ArrayList<PlayerObject> getPlayerObjects() {
+		return playerObjects;
+	}
+
+
+	/**
+	 * @param playerObjects the playerObjects to set
+	 */
+	public static void setPlayerObjects(ArrayList<PlayerObject> playerObjects) {
+		PlayerObject.playerObjects = playerObjects;
+	}
+
+
+	/**
+	 * @return the manager
+	 */
+	public ScoreboardManager getManager() {
+		return manager;
+	}
+
+
+	/**
+	 * @param manager the manager to set
+	 */
+	public void setManager(ScoreboardManager manager) {
+		this.manager = manager;
+	}
+
+
+	/**
+	 * @return the board
+	 */
+	public Scoreboard getBoard() {
+		return board;
+	}
+
+
+	/**
+	 * @param board the board to set
+	 */
+	public void setBoard(Scoreboard board) {
+		this.board = board;
+	}
+
+
+	/**
+	 * @return the objective
+	 */
+	public Objective getObjective() {
+		return objective;
+	}
+
+
+	/**
+	 * @param objective the objective to set
+	 */
+	public void setObjective(Objective objective) {
+		this.objective = objective;
 	}
 
 

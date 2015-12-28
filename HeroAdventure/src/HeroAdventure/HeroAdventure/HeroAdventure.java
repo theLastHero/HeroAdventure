@@ -1,15 +1,20 @@
 package HeroAdventure.HeroAdventure;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import HeroAdventure.FileHandlers.PlayerFileHandler;
 import HeroAdventure.Listeners.MobListener;
+import HeroAdventure.Listeners.NpcListener;
 import HeroAdventure.Listeners.PlayerListener;
+import HeroAdventure.Managers.NpcManager;
 import HeroAdventure.Managers.PlayerManager;
 import HeroAdventure.Utils.Verbrose;
 import HeroAdventure.Utils.WorldWeatherTime;
@@ -31,6 +36,8 @@ public class HeroAdventure extends JavaPlugin {
 
 	public static  HeroAdventure instance;
 	public HeroAdventure plugin;
+
+
 
 
 	// -------------------------------------------------------------------------------------
@@ -68,11 +75,24 @@ public class HeroAdventure extends JavaPlugin {
 		
 		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(plugin), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new MobListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new NpcListener(), this);
 		
 		//FIRST_JOIN_LOCATION = 
 		
 		//set world times
 		WorldWeatherTime.setWeatherTime(Bukkit.getServer().getWorld("world_arotha"), 18000, false);
+		
+		//spawn ncp #1
+		List<Integer> npc1QuestList = new ArrayList<Integer>();
+		npc1QuestList.add(1);
+		NpcManager.createNpcObject(1, "Jur Warbringer",	 new Location(Bukkit.getWorld("world_arotha"), 13.678, 8, -25.284, 54, 4), (float) 74.8, (float) -2.2, ChatColor.GOLD, npc1QuestList);
+		
+		//spawn npc #2
+		List<Integer> npc2QuestList = new ArrayList<Integer>();
+		npc2QuestList.add(2);
+		npc2QuestList.add(3);
+		NpcManager.createNpcObject(2, "Ty Arian", new Location(Bukkit.getWorld("world_arotha"), 87.089, 1, -27.516, (float) 177.3, 2), (float) 177.3, 2, ChatColor.GOLD, npc2QuestList);
+
 	}
 
 
@@ -153,6 +173,20 @@ public class HeroAdventure extends JavaPlugin {
 	 */
 	public void setPlayerFileHandler(PlayerFileHandler playerFileHandler) {
 		PlayerFileHandler = playerFileHandler;
+	}
+
+	/**
+	 * @return the plugin
+	 */
+	public HeroAdventure getPlugin() {
+		return plugin;
+	}
+
+	/**
+	 * @param plugin the plugin to set
+	 */
+	public void setPlugin(HeroAdventure plugin) {
+		this.plugin = plugin;
 	}
 
 }

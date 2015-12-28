@@ -5,3 +5,4 @@ author: judgetread
 authors: [judgetread, DeathFinn] 
 website: http://thelasthero.net
 main: HeroAdventure.HeroAdventure.HeroAdventure
+softdepend: [NPCLib, NickNamer]

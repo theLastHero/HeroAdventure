@@ -54,7 +54,7 @@ public class PlayerObject {
 		
 		
 		
-		updateScoreboard();
+		//updateScoreboard();
 		
 		playerObjects.add(this);		//Add this object to the arraylist of PlayerObjects
 
